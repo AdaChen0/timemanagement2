@@ -6,22 +6,32 @@
 
 <div class="box">
   <% libToDisplay.forEach(function(item){%>
-  <form action="/delete" method="post">
+  <form action="/deleteLib" method="post">
     <div class="box">
       <p><%= item.title %></p>
       <p><%= item.url %></p>
       <p>
-        <a href="http://<%= item.url %>" class="btn btn-primary" role="button">
+        <!-- <a href="http://<%= item.url %>" class="btn btn-primary" role="button">
           Download
-        </a>
+        </a> -->
+        <button
+          style="width: 80px"
+          class="btn btn-danger"
+          type="submit"
+          name="checkbox"
+          value="<%=item._id%>"
+          onclick="this.form.submit()"
+        >
+          Delete
+        </button>
       </p>
     </div>
   </form>
   <% });%>
 
-  <form class="" action="/compose" method="post">
+  <form class="" action="/library" method="post">
+    <label>Add more resource:</label>
     <div class="form-group">
-      <label>Add more</label>
       <label>Title</label>
       <input class="form-control" type="text" name="postTitle" />
       <label>URL Link</label>

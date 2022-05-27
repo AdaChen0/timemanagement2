@@ -2,12 +2,13 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const date = require(__dirname + "/date.js");
+const timeMa = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
 
 const app = express();
 
 app.set("view engine", "ejs");
+app.locals.currentTime = timeMa.currentTime();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -18,19 +19,31 @@ mongoose.connect("mongodb://localhost:27017/todolistDB", {
 
 const itemsSchema = {
   name: String,
+  urgent: Boolean,
+  important: Boolean,
+  timeNeed: Number,
 };
 const Item = mongoose.model("Item", itemsSchema);
 
 const item1 = new Item({
   name: "Welcome to your todolist!",
+  urgent: true,
+  important: true,
+  timeNeed: 5,
 });
 
 const item2 = new Item({
   name: "Hit the + button to add a new item.",
+  urgent: true,
+  important: true,
+  timeNeed: 3,
 });
 
 const item3 = new Item({
   name: "<-- Hit this to delete an item.",
+  urgent: false,
+  important: true,
+  timeNeed: 2,
 });
 
 const defaultItems = [item1, item2, item3];
@@ -80,7 +93,11 @@ app.get("/", function (req, res) {
       };
 
       var day = today.toLocaleDateString("en-AU", options);
-      res.render("list", { listTitle: day, newListItems: foundItems });
+      res.render("list", {
+        listTitle: day,
+        newListItems: foundItems,
+        theTimer: "currentTime",
+      });
     }
   });
 });
@@ -111,11 +128,15 @@ app.post("/delete", function (req, res) {
 });
 
 app.get("/about", function (req, res) {
-  res.render("about");
+  res.render("about", { listTitle: "dafsf", newListItems: [] });
+});
+
+app.get("/music", function (req, res) {
+  res.render("musicPlayer");
 });
 
 app.get("/taskTable", function (req, res) {
-  res.render("taskTable");
+  res.render("taskTable", { listTitle: "Task Table", newListItems: [] });
 });
 
 app.get("/library", function (req, res) {
@@ -135,6 +156,33 @@ app.get("/library", function (req, res) {
     }
   });
 });
+
+app.post("/library", function (req, res) {
+  const lib = new Library({
+    title: req.body.postTitle,
+    url: req.body.postBody,
+  });
+
+  lib.save();
+
+  res.redirect("/library");
+});
+
+app.post("/deleteLib", function (req, res) {
+  const checkedItemId = req.body.checkbox;
+
+  Library.findByIdAndRemove(checkedItemId, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(checkedItemId + " deleted");
+      res.redirect("/library");
+    }
+  });
+  console.log(checkedItemId);
+});
+
+// Timer
 
 app.listen(3000, function () {
   console.log("Server started on port 3000");

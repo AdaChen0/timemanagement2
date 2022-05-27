@@ -1,10 +1,45 @@
 <%- include("header") -%>
 
-<h2>This is the about page</h2>
+<div id="heading">
+  <h1><%= listTitle %></h1>
+</div>
+<div style="text-align: center">
+  <table style="align-content: center" class="center">
+    <thead>
+      <tr>
+        <th><!-- Intentionally Blank --></th>
+        <th>Urgent</th>
+        <th>Not Urgent</th>
+      </tr>
 
-<p>
-  jkhkjshjks dhfjkh sjkdfh sjkdf jksdfhjksfhjks dhjfk sjkdfjksdfhjkshdfjk sdjkf
-  sjkdf jksd fjks djfkhsjkdf hsjkd fhs
-</p>
+      <tr></tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <th>Important</th>
+        <td>item1</td>
+        <td>item2</td>
+      </tr>
+      <tr>
+        <th>Not Important</th>
+        <td>item3</td>
+        <td>item4</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="box">
+  <% newListItems.forEach(function(item){%>
+  <form>
+    <div class="item">
+      <p><%= item.name %></p>
+      <p><%= item.urgent %></p>
+      <p><%= item.important %></p>
+      <p><%= item.timeNeed %></p>
+    </div>
+  </form>
+  <% });%>
+</div>
 
 <%- include("footer") -%>
