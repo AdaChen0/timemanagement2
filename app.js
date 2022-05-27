@@ -18,19 +18,31 @@ mongoose.connect("mongodb://localhost:27017/todolistDB", {
 
 const itemsSchema = {
   name: String,
+  urgent: Boolean,
+  important: Boolean,
+  timeNeed: Number,
 };
 const Item = mongoose.model("Item", itemsSchema);
 
 const item1 = new Item({
   name: "Welcome to your todolist!",
+  urgent: true,
+  important: true,
+  timeNeed: 5,
 });
 
 const item2 = new Item({
   name: "Hit the + button to add a new item.",
+  urgent: true,
+  important: true,
+  timeNeed: 3,
 });
 
 const item3 = new Item({
   name: "<-- Hit this to delete an item.",
+  urgent: false,
+  important: true,
+  timeNeed: 2,
 });
 
 const defaultItems = [item1, item2, item3];
