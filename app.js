@@ -2,12 +2,13 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const date = require(__dirname + "/date.js");
+const timeMa = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
 
 const app = express();
 
 app.set("view engine", "ejs");
+app.locals.currentTime = timeMa.currentTime();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -92,7 +93,11 @@ app.get("/", function (req, res) {
       };
 
       var day = today.toLocaleDateString("en-AU", options);
-      res.render("list", { listTitle: day, newListItems: foundItems });
+      res.render("list", {
+        listTitle: day,
+        newListItems: foundItems,
+        theTimer: "currentTime",
+      });
     }
   });
 });
@@ -126,8 +131,12 @@ app.get("/about", function (req, res) {
   res.render("about", { listTitle: "dafsf", newListItems: [] });
 });
 
+app.get("/music", function (req, res) {
+  res.render("musicPlayer");
+});
+
 app.get("/taskTable", function (req, res) {
-  res.render("taskTable", { listTitle: "dafsf", newListItems: [] });
+  res.render("taskTable", { listTitle: "Task Table", newListItems: [] });
 });
 
 app.get("/library", function (req, res) {
@@ -172,6 +181,8 @@ app.post("/deleteLib", function (req, res) {
   });
   console.log(checkedItemId);
 });
+
+// Timer
 
 app.listen(3000, function () {
   console.log("Server started on port 3000");
