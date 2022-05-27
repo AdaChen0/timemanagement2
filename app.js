@@ -123,11 +123,11 @@ app.post("/delete", function (req, res) {
 });
 
 app.get("/about", function (req, res) {
-  res.render("about");
+  res.render("about", { listTitle: "dafsf", newListItems: [] });
 });
 
 app.get("/taskTable", function (req, res) {
-  res.render("taskTable");
+  res.render("taskTable", { listTitle: "dafsf", newListItems: [] });
 });
 
 app.get("/library", function (req, res) {
