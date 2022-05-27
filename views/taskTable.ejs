@@ -18,28 +18,16 @@
     <tbody>
       <tr>
         <th>Important</th>
-        <td>item1</td>
-        <td>item2</td>
+        <td><%=item1.name%></td>
+        <td><%=item2.name%></td>
       </tr>
       <tr>
         <th>Not Important</th>
-        <td>item3</td>
-        <td>item4</td>
+        <td><%=item3.name%></td>
+        <td><%=item4.name%></td>
       </tr>
     </tbody>
   </table>
-</div>
-<div class="box">
-  <% newListItems.forEach(function(item){%>
-  <form>
-    <div class="item">
-      <p><%= item.name %></p>
-      <p><%= item.urgent %></p>
-      <p><%= item.important %></p>
-      <p><%= item.timeNeed %></p>
-    </div>
-  </form>
-  <% });%>
 </div>
 
 <%- include("footer") -%>

@@ -26,7 +26,7 @@ const itemsSchema = {
 const Item = mongoose.model("Item", itemsSchema);
 
 const item1 = new Item({
-  name: "Welcome to your todolist!",
+  name: "THIS IS AN EXAMPLE OF TODOLIST ITEM",
   urgent: true,
   important: true,
   timeNeed: 5,
@@ -40,7 +40,7 @@ const item2 = new Item({
 });
 
 const item3 = new Item({
-  name: "<-- Hit this to delete an item.",
+  name: "Hit THE LEFT BLANK PANE to delete an item.",
   urgent: false,
   important: true,
   timeNeed: 2,
@@ -56,12 +56,12 @@ const librarySchema = {
 const Library = mongoose.model("Library", librarySchema);
 
 const lib1 = new Library({
-  title: "Welcome to your todolist!",
+  title: "THIS IS AN EXAMPLE OF RESOURCE ITEM",
   url: "www.google.com",
 });
 
 const lib2 = new Library({
-  title: "Hit the + button to add a new item.",
+  title: "Hit the PUBLISH button to add a new item.",
   url: "www.google.com",
 });
 
@@ -136,7 +136,43 @@ app.get("/music", function (req, res) {
 });
 
 app.get("/taskTable", function (req, res) {
-  res.render("taskTable", { listTitle: "Task Table", newListItems: [] });
+  Item.find({}, function (err, foundItems) {
+    if (foundItems.length === 0) {
+      Item.insertMany(defaultItems, function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("items added to databse.");
+        }
+      });
+      res.redirect("/");
+    } else {
+      var item1 = "";
+      var item2 = "";
+      var item3 = "";
+      var item4 = "";
+      foundItems.forEach(function (item) {
+        if (item.urgent === true && item.important === true) {
+          item1 = item;
+        } else if (item.urgent === true && item.important === false) {
+          item2 = item;
+        } else if (item.urgent === false && item.important === true) {
+          item3 = item;
+        } else {
+          item4 = item;
+        }
+      });
+      res.render("taskTable", {
+        listTitle: " ",
+        newListItems: foundItems,
+        item1: item1,
+        item2: item2,
+        item3: item3,
+        item4: item4,
+      });
+    }
+  });
+  // res.render("taskTable", { listTitle: "Task Table", newListItems: [] });
 });
 
 app.get("/library", function (req, res) {

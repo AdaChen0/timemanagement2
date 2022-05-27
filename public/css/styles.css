@@ -144,7 +144,6 @@ thead th {
 body {
   background: linear-gradient(to bottom left, #c0cfb2 10%, #8ba989 80%);
   display: grid;
-  overflow: hidden;
 }
 
 #player {
