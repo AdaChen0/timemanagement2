@@ -1,4 +1,5 @@
-<%- include("header") -%> <%- include("timer") -%>
+<%- include("header") -%>
+
 <div class="box" id="heading">
   <h1><%= listTitle %></h1>
 </div>
@@ -14,9 +15,6 @@
         onChange="this.form.submit()"
       />
       <p><%= item.name %></p>
-      <p><%= item.urgent %></p>
-      <p><%= item.important %></p>
-      <p><%= item.timeNeed %></p>
     </div>
   </form>
   <% });%>
@@ -30,29 +28,6 @@
     />
     <button type="submit" name="list" value="<%=listTitle%>">+</button>
   </form>
-</div>
-
-<div onload="startTime()">
-  <div id="txt"></div>
-  <script>
-    function startTime() {
-      const today = new Date();
-      let h = today.getHours();
-      let m = today.getMinutes();
-      let s = today.getSeconds();
-      m = checkTime(m);
-      s = checkTime(s);
-      document.getElementById("txt").innerHTML = h + ":" + m + ":" + s;
-      setTimeout(startTime, 1000);
-    }
-
-    function checkTime(i) {
-      if (i < 10) {
-        i = "0" + i;
-      } // add zero in front of numbers < 10
-      return i;
-    }
-  </script>
 </div>
 
 <%- include("footer") -%>
